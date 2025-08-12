@@ -2,88 +2,82 @@ Instructivo del Juego TATETI
 por alumna Guadalupe Yañez
 Computacion 2025 
 
-Estructura General:El juego está organizado en módulos, cada uno con una tarea
 
-Módulo	         Función principal
-tablero.py	     Representa el tablero 3x3 y contiene la lógica del juego
-tateti.py	     Coordina el turno de los jugadores y llama al tablero
-jugadores.py	 Crea a los jugadores y les asigna una ficha (X o O)
-excepciones.py	 Define errores personalizados (posiciones inválidas, ocupadas)
-cli.py	         Interfaz por consola: muestra menú, pide inputs, imprime mensajes
+Estructura: 
+El juego está organizado en módulos, cada uno con una tarea
+La separación en módulos permite que el código sea más ordenado, 
+fácil de mantener, modificar y probar.
 
-Validaciones y Excepciones:La aplicación tiene este apartado para evitar errores (q se hacen desde los módulos lógicos, no desde CLI)
+jugadores.py: crea a los jugadores y les asigna su ficha (X u O). 
+Esto se hace para que la información de cada jugador esté bien organizada y 
+sea fácil de obtener cuando el juego lo necesite.
 
-Archivo excepciones.py:
+tablero.py: representa el tablero de 3x3. Aquí se valida que las posiciones elegidas 
+sean correctas y que no estén ocupadas. También se detecta si hay un ganador o si el 
+tablero está lleno (empate).
 
-    PosOcupadaException:
-    Para cuando el jugador intenta colocar una ficha en una casilla ya ocupada
-    PosFueraDeRangoException:
-    Para cuando el jugador ingresa una fila o columna fuera del rango (0 a 2)
-impor!(Son manejadas por la CLI, que muestra un mensaje sin que el juego se rompa)
+tateti.py: maneja el turno de los jugadores y coordina la partida. 
+Este archivo usa el tablero para colocar las fichas, controla de quién es el turno 
+y revisa si el juego termina.
 
-Archivo tablero.py y tateti.py:
+excepciones.py: define errores personalizados que se lanzan cuando el jugador intenta 
+hacer algo inválido, como poner una ficha en una casilla ocupada o fuera del tablero.
 
-El tablero se representa como una matriz 3x3
-    El método poner_la_ficha(fil, col, ficha):
-        Verifica que la posición esté vacía
-        Verifica que la posición esté dentro del rango válido
-        Coloca la ficha (X o O)
-        Si no se puede, lanza la excepción correspondiente
-    hay_ganador(ficha): detecta 3 iguales en fila, columna o diagonal
-    esta_lleno(): detecta empate (no hay espacios vacíos)
-    reiniciar(): reinicia el tablero
+cli.py: es la interfaz del juego por consola. Muestra el tablero, pide al jugador 
+que ingrese fila y columna, y muestra mensajes como si alguien gana, hay empate o si 
+se ingresa un valor no válido.
 
-El Tateti maneja el flujo del juego
-        Tiene un turno actual (X o O)
-        Llama a poner_la_ficha() del Tablero
-        Cambia de turno automáticamente si el movimiento fue válido
-        Llama a hay_ganador() y esta_lleno() después de cada jugada
-        Puede reiniciar el juego si hay ganador o empate
 
-Archivo jugadores.py:
+Funcionamiento:
 
-    Crea dos jugadores con nombre y ficha (X o O)
+Validaciones y Excepciones: La aplicación tiene este apartado para evitar errores 
+(impor! se hacen desde los módulos lógicos, no desde CLI). Las excepciones se definen en 
+archivo excepciones.py y son: PosOcupadaException para cuando el jugador intenta colocar 
+una ficha en una casilla ya ocupada y PosFueraDeRangoException para cuando el jugador
+ingresa una fila o columna fuera del rango (0 a 2). Estas son manejadas por la CLI 
+para que el juego continúe sin romperse.
 
-Archivo cli.py:
+Archivo tablero.py: El tablero se representa como una matriz 3x3. El método 
+poner_la_ficha(fil, col, ficha) verifica que la posición esté vacía y dentro del rango
+válido, coloca la ficha y si no se puede lanza la excepción correspondiente. 
+hay_ganador(ficha) detecta 3 iguales en fila, columna o diagonal. 
+tablero_lleno() detecta empate cuando no hay espacios vacíos. 
+reiniciar() reinicia el tablero.
 
-    Muestra un menú
-    Muestra el tablero
-    Pide input al jugador (fila y columna)
-    Usa try/except para:
-        Inputs inválidos (fuera de rango)
-        Posiciones ya ocupadas
-        Cualquier error previsto
-    Informa si alguien gana o si hay empate
-    Pregunta si se quiere reiniciar el juego después de terminar
+Archivo tateti.py: El Tateti maneja el flujo del juego. Tiene un turno actual (X o O), 
+llama a poner_la_ficha() del Tablero, cambia de turno automáticamente si el movimiento 
+fue válido, llama a hay_ganador() y tablero_lleno() después de cada jugada, y puede 
+reiniciar el juego si hay ganador o empate.
 
-Flujo del juego
+Archivo jugadores.py: Crea dos jugadores con nombre y ficha (X o O).
 
-    Se ejecuta cli.py
-    Se imprime el tablero vacío y se indica el turno de X
-    El jugador ingresa fila y columna
-    Se coloca la ficha si la casilla es válida
-    Se verifica si alguien ganó o si hay empate
-    Si hay resultado, se muestra y se pregunta si se quiere reiniciar
-    Si no, cambia el turno y se repite
+Archivo cli.py: Muestra un menú, el tablero, pide input al jugador (fila y columna) y 
+usa try/except para manejar entradas inválidas, posiciones ocupadas y otros errores 
+previstos. Informa si alguien gana o si hay empate y pregunta si se quiere reiniciar 
+el juego después de terminar.
 
-Tests
-Incluye pruebas (test_tablero.py, etc.) para:
 
-    Validar colocación de fichas
-    Detectar ganadores en fila, columna, diagonal
-    Detectar empate
-    Manejo correcto de excepciones
+Flujo del juego: 
+Se ejecuta cli.py. Se imprime el tablero vacío y se indica el turno de X.
+El jugador ingresa fila y columna. Se coloca la ficha si la casilla es válida. 
+Se verifica si alguien ganó o si hay empate. Si hay resultado, se muestra y se pregunta 
+si se quiere reiniciar. Si no, cambia el turno y se repite.
 
-Cómo ejecutar los tests
 
-Desde la terminal, ubicado en el proyecto:
+Tests: 
+Incluye pruebas (test_tablero.py, etc.) que verifican que el juego funciona como
+corresponde. Se probaron: creación de jugadores, colocación de fichas correctamente, 
+detección de ganador en filas, columnas y diagonales, detección de empate, 
+manejo de errores de posiciones inválidas y ocupadas, cambio de turno y reinicio del juego.
+
+Ejecutar los tests
 
 python3 -m unittest discover tests
 
-guadalupe@DellRoja:~/Documentos/Computacion1/Tateti/computaci-n-2025-08-05-ta-te-ti-GuadalupeYz$ python3 -m unittest discover tests
-...............
+guadalupe@DellRoja:~/Documentos/Computacion1/Tateti/computaci-n-2025-08-05-ta-te-ti
+-GuadalupeYz$ python3 -m unittest discover tests
+................................
 ----------------------------------------------------------------------
-Ran 15 tests in 0.004s
+Ran 32 tests in 0.005s
 
 OK
- 

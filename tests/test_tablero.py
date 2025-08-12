@@ -52,6 +52,30 @@ class TestTablero(unittest.TestCase):
             tablero.poner_la_ficha(fil, col, ficha)
         self.assertTrue(tablero.tablero_lleno())
 
+    def test_no_hay_ganador_tablero_vacio(self):
+        tablero = Tablero()
+        self.assertFalse(tablero.hay_ganador("X"))
+        self.assertFalse(tablero.hay_ganador("O"))
+
+    def test_no_hay_ganador_con_jugadas_incompletas(self):
+        tablero = Tablero()
+        tablero.poner_la_ficha(0, 0, "X")
+        tablero.poner_la_ficha(1, 1, "X")
+        self.assertFalse(tablero.hay_ganador("X"))
+
+    def test_ganador_diagonal_inversa(self):
+        tablero = Tablero()
+        for i in range(3):
+            tablero.poner_la_ficha(i, 2 - i, "O")
+        self.assertTrue(tablero.hay_ganador("O"))
+
+    def test_reiniciar_tablero_lo_deja_vacio(self):
+        tablero = Tablero()
+        tablero.poner_la_ficha(0, 0, "X")
+        tablero.reiniciar()
+        self.assertEqual(tablero.obtener_tablero(), [["", "", ""], ["", "", ""], ["", "", ""]])
+
+
 if __name__ == '__main__':
     unittest.main()
 

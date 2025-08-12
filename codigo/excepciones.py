@@ -1,7 +1,9 @@
+#aca defino excepciones q pueden pasar en el juego
+
 class PosOcupadaException(Exception):
-    """Se lanza cuando se intenta ocupar una posición ya ocupada en el tablero."""
+    #error cuando un jugador intenta poner una ficha en una casilla ocupada
     pass
 
 class PosFueraDeRangoException(Exception):
-    """Se lanza cuando se intenta poner una ficha fuera del tablero (índices inválidos)."""
+    #error cuando un jugador ingresa una fila o columna fuera del rango 0 a 2
     pass
